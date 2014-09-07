@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
+<html class="no-js" lang="en" >
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <link rel="stylesheet" href="http://cdn.jsdelivr.net/foundation/5.3.3/css/foundation.min.css" type="text/css" media="screen" />
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.min.js"></script>
+    <title>Form</title>
+  </head>
+  <body>
+    <div class="row">
+      <div class="small-12 columns">
+        <h1>New note</h1>
+      </div>
+    </div>
+    <form id="item-form">
+      <div class="row">
+        <div class="small-12 columns">
+          <textarea id="item-body" placeholder=""></textarea>
+        </div>
+      </div>
+      <div class="row">
+        <div id="item-keyword" class="large-6 columns">
+          <label>Item keywords</label>
+        </div>
+      </div>
+    </form>
+      <div class="row">
+        <div class="small-12 columns">
+          <button class="button expand" onclick="save()">New</button>
+          <div data-alert style="display: none" class="alert-box success round">
+            Item added!
+            <a href="#" class="close">&times;</a>
+          </div>
+        </div>
+      </div>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.3.3/js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+
+      $(document).ready( function() {
+        // Fetching available item keywords
+        $.ajax({
+          url: '/keywords'
+        }).done(function(data) {
+          $.each( eval(data), function( idx, elem ) {
+            $("#item-keyword").append(
+              $("<input>", {type: 'radio', id: 'kw' + elem, name: 'item-keyword', value: elem})
+            )
+            .append( $("<label>", {for: 'kw' + elem}).text( elem ))    
+          });
+        });
+      });
+
+      function save() {
+        console.log("Saving item...");
+        $.ajax({
+          url: '/save',
+          method: 'POST',
+          data: {
+            text: $('#item-body').val(),
+            keyword: $('input[name=item-keyword]:checked', '#item-form').val()
+          }
+        }).done(function(data) {
+          var alertBox = $('.alert-box');
+          $(alertBox).fadeIn(500);
+          console.log('OK');
+        });
+        return false;
+      }
+    </script>
+  </body>
+</html>
