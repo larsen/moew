@@ -8,12 +8,11 @@
   (format "%s/%s" moew:org-dir moew:org-filename))
 
 (defun moew:main-handler (httpcon)
-  (let ((form-page "form.html"))
-    (elnode-hostpath-dispatcher
+  (elnode-hostpath-dispatcher
      httpcon
      `(("^.*//form"     . moew:form)
        ("^.*//keywords" . moew:keywords)
-       ("^.*//save"     . moew:save)))))
+       ("^.*//save"     . moew:save))))
 
 (defun moew:form (httpcon)
   (elnode-http-start httpcon 200 '("Content-type" . "text/html"))
