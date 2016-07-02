@@ -1,5 +1,7 @@
 ;;; My Org Elnode webservice (moew)
 
+(require 'elnode)
+
 (defvar moew:org-dir "/home/larsen/Dropbox/org")
 (defvar moew:org-filename "mobile-notes.org")
 (defvar moew:port 8002)
