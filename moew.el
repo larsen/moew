@@ -25,7 +25,9 @@
                     (json-encode (cdr (car org-todo-keywords)))))
 
 (defun moew:todo-item-complete-text (keyword body)
-  (format "* %s %s\n" keyword body))
+  (if keyword 
+      (format "* %s %s\n" keyword body)
+    (format "* %s\n" body)))
 
 (defun moew:save (httpcon)
   (let ((todo-item-body (elnode-http-param httpcon "text"))
