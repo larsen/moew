@@ -7,7 +7,7 @@
 (defvar moew:port 8002)
 
 (defun moew:org-complete-filename ()
-  (format "%s/%s" moew:org-dir moew:org-filename))
+  (expand-file-name moew:org-filename moew:org-dir))
 
 (defun moew:main-handler (httpcon)
   (elnode-hostpath-dispatcher
